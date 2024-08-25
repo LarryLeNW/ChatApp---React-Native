@@ -11,8 +11,13 @@ const MainLayout = () => {
     useEffect(() => {
         if (typeof isAuthenticated === "undefined") return;
         const inApp = segments[0] == "(app)";
-        if (isAuthenticated && !inApp) router.replace("Home");
-        else if (isAuthenticated === false) router.replace("SignIn");
+        if (isAuthenticated && !inApp) {
+            console.log("Navigating to Home");
+            router.replace("Home");
+        } else if (isAuthenticated == false) {
+            console.log("Navigating to SignIn");
+            router.replace("SignIn");
+        }
     }, [isAuthenticated]);
 
     return <Slot />;
