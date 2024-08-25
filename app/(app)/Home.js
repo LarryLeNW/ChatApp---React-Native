@@ -6,7 +6,7 @@ function Home() {
     const router = useRouter();
     return (
         <View>
-            <Text className="text-3xl font-bold text-blue-500">Home</Text>
+            <Text className="text-3xl font-bold text-blue-500">Home 2</Text>
         </View>
     );
 }
