@@ -6,7 +6,7 @@ import {
 } from "firebase/auth";
 import { createContext, useContext, useEffect, useState } from "react";
 import { auth, db } from "../config/firebase.config";
-import { doc, setDoc } from "firebase/firestore";
+import { doc, getDoc, setDoc } from "firebase/firestore";
 
 export const AuthContext = createContext();
 
@@ -16,10 +16,12 @@ export const AuthContextProvider = ({ children }) => {
 
     useEffect(() => {
         // state change
-        const unSub = onAuthStateChanged(auth, (user) => {
+        const unSub = onAuthStateChanged(auth, async (user) => {
             if (user) {
                 setIsAuthenticated(true);
-                setUser(user);
+                const userDoc = await getDoc(doc(db, "users", user.uid));
+                console.log("🚀 ~ unSub ~ userDoc:", userDoc);
+                if (userDoc.exists()) setUser(userDoc.data());
             } else {
                 setIsAuthenticated(false);
                 setUser(null);

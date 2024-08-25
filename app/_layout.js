@@ -2,7 +2,7 @@ import { Slot, useRouter, useSegments } from "expo-router";
 import { View } from "react-native";
 import { AuthContextProvider, useAuth } from "../context/authContext";
 import { useEffect } from "react";
-
+import { MenuProvider } from "react-native-popup-menu";
 const MainLayout = () => {
     const { isAuthenticated } = useAuth();
     const segments = useSegments();
@@ -25,9 +25,11 @@ const MainLayout = () => {
 
 const RootLayout = () => {
     return (
-        <AuthContextProvider>
-            <MainLayout />
-        </AuthContextProvider>
+        <MenuProvider>
+            <AuthContextProvider>
+                <MainLayout />
+            </AuthContextProvider>
+        </MenuProvider>
     );
 };
 
