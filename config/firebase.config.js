@@ -4,7 +4,7 @@ import { collection, getFirestore } from "firebase/firestore";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const firebaseConfig = {
-    apiKey: "",
+    apiKey: "AIzaSyCLVbqlCPZm2Kf0nj_JEffha_6KAQ2yWGI",
     authDomain: "chatapp-reactnative-fb472.firebaseapp.com",
     projectId: "chatapp-reactnative-fb472",
     storageBucket: "chatapp-reactnative-fb472.appspot.com",
