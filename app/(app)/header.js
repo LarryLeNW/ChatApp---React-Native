@@ -11,6 +11,12 @@ import {
     MenuOptions,
     MenuTrigger,
 } from "react-native-popup-menu";
+import MenuItem from "../../components/CustomMenuItem";
+import {
+    FontAwesome,
+    MaterialIcons,
+    SimpleLineIcons,
+} from "@expo/vector-icons";
 const ios = Platform.OS == "ios";
 const Header = () => {
     const { top } = useSafeAreaInsets();
@@ -36,7 +42,7 @@ const Header = () => {
                     <MenuTrigger>
                         <Image
                             style={{
-                                height: heightPercentageToDP(4.3),
+                                height: heightPercentageToDP(5.3),
                                 aspectRatio: 1,
                                 borderRadius: 100,
                             }}
@@ -46,14 +52,48 @@ const Header = () => {
                             transition={500}
                         />
                     </MenuTrigger>
-                    <MenuOptions>
-                        <MenuOption
-                            onSelect={() => alert(`Your Profile`)}
-                            text="Your Profile"
+                    <MenuOptions
+                        customStyles={{
+                            optionsContainer: {
+                                borderBottomEndRadius: 10,
+                                borderBottomStartRadius: 10,
+                                borderTopStartRadius: 10,
+                                borderCurve: "continuous",
+                                marginTop: 40,
+                                marginLeft: -20,
+                                backgroundColor: "white",
+                                shadowOpacity: 0.2,
+                                shadowOffset: { width: 0, height: 0 },
+                                width: 160,
+                            },
+                        }}
+                    >
+                        <MenuItem
+                            text="Profile"
+                            action={alert}
+                            value={null}
+                            textColor={"text-blue-600"}
+                            icon={
+                                <FontAwesome
+                                    name="user"
+                                    size={24}
+                                    color="blue"
+                                />
+                            }
                         />
-                        <MenuOption onSelect={() => logout()}>
-                            <Text style={{ color: "red" }}>Logout</Text>
-                        </MenuOption>
+                        <MenuItem
+                            text="Logout"
+                            action={logout}
+                            value={null}
+                            textColor={"text-red-600"}
+                            icon={
+                                <MaterialIcons
+                                    name="logout"
+                                    size={24}
+                                    color="red"
+                                />
+                            }
+                        />
                     </MenuOptions>
                 </Menu>
             </View>
