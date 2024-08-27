@@ -14,6 +14,7 @@ const CustomKeyboard = ({ children }) => {
                 justifyContent: "center",
             }}
             className="h-full w-full "
+            keyboardVerticalOffset={90}
         >
             <ScrollView
                 style={{ flex: 1 }}
