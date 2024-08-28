@@ -7,7 +7,16 @@ import { heightPercentageToDP } from "react-native-responsive-screen";
 import MessageList from "./MessageList";
 import { useAuth } from "../../context/authContext";
 import { formatChatRoom } from "../../utils/common";
-import { addDoc, collection, doc, setDoc, Timestamp } from "firebase/firestore";
+import {
+    addDoc,
+    collection,
+    doc,
+    onSnapshot,
+    orderBy,
+    query,
+    setDoc,
+    Timestamp,
+} from "firebase/firestore";
 import { db } from "../../config/firebase.config";
 
 const ChatRoom = () => {
@@ -18,15 +27,30 @@ const ChatRoom = () => {
     const [message, setMessage] = useState("");
 
     useEffect(() => {
-        createRoomIfNotExit();
+        let roomId = formatChatRoom(user?.userId, item.userId);
+        createRoomIfNotExit(roomId);
+        const docRef = doc(db, "rooms", roomId);
+        const messagesRef = collection(docRef, "messages");
+        const q = query(messagesRef, orderBy("createdAt", "asc"));
+
+        let unSub = onSnapshot(q, (snapshot) => {
+            let allMessages = snapshot.docs.map((doc) => {
+                return doc.data();
+            });
+            setMessages([...allMessages]);
+        });
+
+        return unSub;
     }, []);
 
-    const createRoomIfNotExit = async () => {
-        let roomId = formatChatRoom(user?.userId, item.userId);
-        await setDoc(doc(db, "rooms", roomId), {
-            roomId,
-        });
-        console.log("🚀 ~ createRoomIfNotExit ~ roomId:", roomId);
+    const createRoomIfNotExit = async (roomId) => {
+        try {
+            await setDoc(doc(db, "rooms", roomId), {
+                roomId,
+            });
+        } catch (error) {
+            Alert.alert("Error Connect Room Chat", "Something went wrong...");
+        }
     };
 
     const handleSendMessage = async () => {
@@ -48,9 +72,9 @@ const ChatRoom = () => {
                 createdAt: Timestamp.fromDate(new Date()),
             });
 
-            console.log("🚀 ~ handleSendMessage ~ newDoc:", newDoc.id);
+            if (newDoc.id) setMessage("");
         } catch (error) {
-            console.log("🚀 ~ handleSendMessage ~ error:", error);
+            Alert.alert("Error Send Chat", "Something went wrong...");
         }
     };
 
@@ -59,7 +83,7 @@ const ChatRoom = () => {
             <Header infoConnect={item} router={router} />
             <View className="d-flex flex-col h-full">
                 <View className="h-[85%]">
-                    <MessageList />
+                    <MessageList messages={messages} />
                 </View>
                 <View className="h-[10%] d-flex flex-row justify-between items-center mx-4 bg-white border px-4 py-2 border-neutral-300 rounded-full ">
                     <TextInput

@@ -18,7 +18,7 @@ import { useAuth } from "../context/authContext";
 function SignIn() {
     const router = useRouter();
     const { login } = useAuth();
-    const [email, setEmail] = useState("trinhlek4@gmail.com");
+    const [email, setEmail] = useState("ngando@gmail.com");
     const [password, setPassword] = useState("123456");
     const [isLoading, setIsLoading] = useState(false);
 

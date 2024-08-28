@@ -20,7 +20,6 @@ export const AuthContextProvider = ({ children }) => {
             if (user) {
                 setIsAuthenticated(true);
                 const userDoc = await getDoc(doc(db, "users", user.uid));
-                console.log("🚀 ~ unSub ~ userDoc:", userDoc);
                 if (userDoc.exists()) setUser(userDoc.data());
             } else {
                 setIsAuthenticated(false);
@@ -64,7 +63,6 @@ export const AuthContextProvider = ({ children }) => {
     const login = async (email, password) => {
         try {
             const res = await signInWithEmailAndPassword(auth, email, password);
-            console.log("🚀 ~ login ~ res:", res);
             return { success: true, msg: "Login successfully" };
         } catch (e) {
             let msg = e.message.includes("(auth/invalid-email)")

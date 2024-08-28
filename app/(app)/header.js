@@ -22,8 +22,6 @@ const Header = () => {
     const { top } = useSafeAreaInsets();
     const { user, logout } = useAuth();
 
-    console.log("🚀 ~ Header ~ user:", user);
-
     return (
         <View
             style={{ paddingTop: ios ? top : top + 10 }}
