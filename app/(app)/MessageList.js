@@ -23,13 +23,7 @@ const MessageList = ({ messages }) => {
             ref={lastViewRef}
         >
             {messages.map((message, index) => {
-                return (
-                    <MessageItem
-                        data={message}
-                        key={index}
-                        lastMessage={messages.length === index + 1}
-                    />
-                );
+                return <MessageItem data={message} key={index} />;
             })}
         </ScrollView>
     );
